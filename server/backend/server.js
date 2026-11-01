@@ -23,6 +23,8 @@ const frontendUrl = rawFrontendUrl && rawFrontendUrl.endsWith('/') ? rawFrontend
 const allowedOrigins = [
   'http://localhost:5173', // Vite default port
   'http://localhost:3000',
+  'http://localhost:8081',
+  'http://127.0.0.1:8081',
   'https://pet-link-ashen.vercel.app',
   'https://pet-link-git-main-mrnabeel.vercel.app',
   frontendUrl
@@ -30,7 +32,14 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      origin.startsWith('http://192.168.') ||
+      origin.startsWith('http://10.0.2.')
+    ) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
